@@ -3,102 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Banna Slug Scan Details</title>
+  <title>Banna Slug Scan Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    /* Reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; font-family: 'Inter', sans-serif; background: #0f172a; color: white; }
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; }
     body { display: flex; flex-direction: column; }
-    .container { max-width: 900px; margin: auto; flex: 1; padding: 20px; display: flex; flex-direction: column; }
-    .back { margin-bottom: 20px; color: #facc15; text-decoration: none; font-weight: 600; }
-    .details-img { width: 100%; border-radius: 12px; margin-bottom: 20px; }
-    .details-title { font-size: 1.8rem; margin-bottom: 10px; }
-    .details-coords { font-size: 1rem; margin-bottom: 10px; font-style: italic; color: #facc15; }
-    .details-description { font-size: 1rem; line-height: 1.5; margin-bottom: auto; }
-    .footer { text-align: center; margin-top: 20px; font-size: 0.85rem; opacity: 0.7; }
 
-    .account {
+    /* Container */
+    .container { max-width: 1200px; margin: auto; flex: 1; display: flex; flex-direction: column; padding: 20px; }
+
+    /* Account */
+    .account { display: flex; align-items: center; justify-content: flex-end; margin-bottom: 10px; }
+    .account .avatar { width: 35px; height: 35px; border-radius: 50%; margin-right: 10px; border: 2px solid #facc15; transition: transform 0.3s; }
+    .account .avatar:hover { transform: scale(1.1); }
+    .account .username { font-weight: 600; color: #facc15; }
+
+    /* Header */
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 2rem; background: #facc15; color: #0f172a; display: inline-block; padding: 10px 20px; border-radius: 12px; font-weight: 700; }
+
+    /* Card Grid */
+    .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+    @media (max-width: 900px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .card-grid { grid-template-columns: 1fr; } .header h1 { font-size: 1.4rem; padding: 8px 14px; } }
+
+    /* Card Styling */
+    .card {
+      background: #1e293b;
+      border-radius: 20px;
+      padding: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-bottom: 10px;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+      position: relative;
+      overflow: hidden;
     }
-
-    .account .avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      margin-right: 10px;
-      border: 2px solid #facc15;
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,255,255,0.05) 0%, transparent 60%);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
     }
+    .card:hover::before {
+      top: -30%;
+      left: -30%;
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 15px 35px rgba(0,0,0,0.6); background: #273449; }
 
-    .account .username {
+    .card img { width: 100%; border-radius: 12px; margin-bottom: 12px; flex-shrink: 0; transition: transform 0.3s; }
+    .card:hover img { transform: scale(1.05); }
+
+    /* Label at bottom */
+    .label {
+      background: linear-gradient(135deg, #facc15, #fbbf24);
+      color: #0f172a;
+      padding: 8px 12px;
+      border-radius: 12px;
       font-weight: 600;
-      color: #facc15;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-top: auto;
+      text-align: center;
+      transition: background 0.3s;
     }
+    .card:hover .label { background: linear-gradient(135deg, #fbbf24, #facc15); }
 
+    /* Footer */
+    .footer { text-align: center; margin-top: auto; font-size: 0.85rem; opacity: 0.7; }
   </style>
 </head>
 <body>
   <div class="container">
-    
+
+    <!-- Account -->
     <div class="account">
       <img src="images/avatar.png" alt="User Avatar" class="avatar">
       <span class="username">DeBRICKable Me</span>
     </div>
 
-    <a href="index.html" class="back">&larr; Back to Dashboard</a>
-    <img src="" alt="Scan Detail" class="details-img" id="detailsImg">
-    <div class="details-title" id="detailsTitle"></div>
-    <div class="details-coords" id="detailsCoords"></div>
-    <div class="details-description" id="detailsDesc"></div>
+    <!-- Header -->
+    <div class="header">
+      <h1>Banna Slug Scan Dashboard</h1>
+    </div>
 
+    <!-- Cards -->
+    <div class="card-grid">
+      <a href="details.html?id=catacomb" class="card">
+        <img src="images/Catacomb.png" alt="Scan Output">
+        <div class="label">Catacomb - Dublin, Ireland</div>
+      </a>
+
+      <a href="details.html?id=woodentomb" class="card">
+        <img src="images/WoodenTomb.png" alt="Scan Output">
+        <div class="label">Wooden Tomb - Manfal, Egypt</div>
+      </a>
+
+      <a href="details.html?id=metalstructure" class="card">
+        <img src="images/MetalStructure.png" alt="Scan Output">
+        <div class="label">Metal Structure: Abandoned Mine - Nevada, USA</div>
+      </a>
+    </div>
+
+    <!-- Footer -->
     <div class="footer">
       © 2026 Banna Slug | DeBRICKable Me
     </div>
+
   </div>
-
-  <script>
-    const data = {
-      catacomb: {
-        title: 'Catacomb Detected - Dublin, Ireland',
-        img: 'images/Catacomb.png',
-        coords: '53.25986° N, 6.30182° W',
-        desc: 'Your scan detected an ancient catacomb structure in Dublin, Ireland.'
-      },
-      woodentomb: {
-        title: 'Wooden Tomb - Manfal, Egypt',
-        img: 'images/WoodenTomb.png',
-        coords: '27.26558° N, 30.97613° E',
-        desc: 'Your scan detected a wooden tomb in Manfal, Egypt.'
-      },
-      metalstructure: {
-        title: 'Metal Structure: Abandoned Mine - Nevada, USA',
-        img: 'images/MetalStructure.png',
-        coords: '37.7749° N, 116.4194° W',
-        desc: 'Your scan detected a metal structure in Manfal, Egypt. Potentially an abandoned mine.'
-      }
-    };
-
-    // Get id from URL
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-
-    const imgEl = document.getElementById('detailsImg');
-    const titleEl = document.getElementById('detailsTitle');
-    const descEl = document.getElementById('detailsDesc');
-    const coordsEl = document.getElementById('detailsCoords');
-
-    if (data[id]) {
-      imgEl.src = data[id].img;
-      titleEl.textContent = data[id].title;
-      descEl.textContent = data[id].desc;
-      coordsEl.textContent = `Coordinates: ${data[id].coords}`;
-    } else {
-      titleEl.textContent = 'Scan Not Found';
-      descEl.textContent = 'No details are available for this selection.';
-      coordsEl.textContent = '';
-    }
-  </script>
 </body>
 </html>
