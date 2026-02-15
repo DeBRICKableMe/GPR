@@ -6,109 +6,65 @@
   <title>GPR Rover Scan Details</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Reset & base */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; font-family: 'Inter', sans-serif; background: #0f172a; color: white; }
     body { display: flex; flex-direction: column; }
 
-    /* Container */
     .container { max-width: 900px; margin: auto; flex: 1; padding: 20px; display: flex; flex-direction: column; }
 
-    /* Back link */
-    .back {
-      margin-bottom: 20px;
-      color: #facc15;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
+    .back { margin-bottom: 20px; color: #facc15; text-decoration: none; font-weight: 600; transition: color 0.3s; }
     .back:hover { color: #fbbf24; }
 
-    /* Image */
-    .details-img {
-      width: 100%;
-      border-radius: 12px;
-      margin-bottom: 20px;
-      transition: transform 0.3s;
-    }
-    .details-img:hover { transform: scale(1.02); }
+    .details-img { width: 100%; border-radius: 12px; margin-bottom: 20px; transition: transform 0.3s; animation: floatImage 6s ease-in-out infinite; }
+    @keyframes floatImage { 0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);} }
+    .details-img:hover { transform: scale(1.03); }
 
-    /* Title & coords */
-    .details-title { font-size: 1.8rem; margin-bottom: 10px; background: linear-gradient(135deg, #facc15, #fbbf24); -webkit-background-clip: text; color: transparent; font-weight: 700; }
-    .details-coords { font-size: 1rem; margin-bottom: 10px; font-style: italic; color: #facc15; }
+    .details-title { font-size: 1.8rem; margin-bottom: 10px; background: linear-gradient(90deg,#facc15,#fbbf24,#facc15); background-size: 200% 200%; -webkit-background-clip: text; color: transparent; font-weight:700; animation: gradientText 5s ease infinite; }
+    @keyframes gradientText { 0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;} }
 
-    /* Description */
+    .details-coords { font-size: 1rem; margin-bottom: 10px; font-style: italic; color: #facc15; animation: pulseCoords 2s infinite; }
+    @keyframes pulseCoords { 0%,100%{transform:scale(1);opacity:0.9;}50%{transform:scale(1.05);opacity:1;} }
+
     .details-description { font-size: 1rem; line-height: 1.5; margin-bottom: auto; }
 
-    /* Footer */
     .footer { text-align: center; margin-top: 20px; font-size: 0.85rem; opacity: 0.7; }
 
-    @media (max-width: 600px) {
-      .details-title { font-size: 1.5rem; }
-    }
+    @media(max-width:600px){ .details-title{font-size:1.5rem;} }
   </style>
 </head>
 <body>
   <div class="container">
-
-    <!-- Back link -->
     <a href="index.html" class="back">&larr; Back to Dashboard</a>
-
-    <!-- Details content -->
     <img src="" alt="Scan Detail" class="details-img" id="detailsImg">
     <div class="details-title" id="detailsTitle"></div>
     <div class="details-coords" id="detailsCoords"></div>
     <div class="details-description" id="detailsDesc"></div>
-
-    <!-- Footer -->
-    <div class="footer">
-      © 2026 Banna Slug | DeBRICKable Me
-    </div>
-
+    <div class="footer">© 2026 Banna Slug | DeBRICKable Me</div>
   </div>
 
-  <!-- Data and JS -->
   <script>
     const data = {
-      catacomb: {
-        title: 'Catacomb Detected - Dublin, Ireland',
-        img: 'images/Catacomb.png',
-        coords: '53.25986° N, 6.30182° W',
-        desc: 'Your scan detected an ancient catacomb structure in Dublin, Ireland.'
-      },
-      woodentomb: {
-        title: 'Wooden Tomb - Manfal, Egypt',
-        img: 'images/WoodenTomb.png',
-        coords: '27.26558° N, 30.97613° E',
-        desc: 'Your scan detected an ancient wooden tomb structure in Manfal, Egypt.'
-      },
-      metalstructure: {
-        title: 'Metal Structure: Abandoned Mine - Nevada, USA',
-        img: 'images/MetalStructure.png',
-        coords: '37.7749° N, 116.4194° W',
-        desc: 'Your scan detected a metal structure in Nevada, USA. Potentially an abandoned mine.'
-      }
+      catacomb: { title:'Catacomb Detected - Dublin, Ireland', img:'images/Catacomb.png', coords:'53.25986° N, 6.30182° W', desc:'Your scan detected an ancient catacomb structure in Dublin, Ireland.' },
+      woodentomb: { title:'Wooden Tomb - Manfal, Egypt', img:'images/WoodenTomb.png', coords:'27.26558° N, 30.97613° E', desc:'Your scan detected an ancient wooden tomb structure in Manfal, Egypt.' },
+      metalstructure: { title:'Metal Structure: Abandoned Mine - Nevada, USA', img:'images/MetalStructure.png', coords:'37.7749° N, 116.4194° W', desc:'Your scan detected a metal structure in Nevada, USA. Potentially an abandoned mine.' }
     };
-
-    // Get id from URL
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-
     const imgEl = document.getElementById('detailsImg');
     const titleEl = document.getElementById('detailsTitle');
     const descEl = document.getElementById('detailsDesc');
     const coordsEl = document.getElementById('detailsCoords');
 
-    if (data[id]) {
-      imgEl.src = data[id].img;
-      titleEl.textContent = data[id].title;
-      descEl.textContent = data[id].desc;
-      coordsEl.textContent = `Coordinates: ${data[id].coords}`;
+    if(data[id]) {
+      imgEl.src=data[id].img;
+      titleEl.textContent=data[id].title;
+      descEl.textContent=data[id].desc;
+      coordsEl.textContent=`Coordinates: ${data[id].coords}`;
     } else {
-      titleEl.textContent = 'Scan Not Found';
-      descEl.textContent = 'No details are available for this selection.';
-      coordsEl.textContent = '';
-      imgEl.style.display = 'none';
+      titleEl.textContent='Scan Not Found';
+      descEl.textContent='No details are available for this selection.';
+      coordsEl.textContent='';
+      imgEl.style.display='none';
     }
   </script>
 </body>
